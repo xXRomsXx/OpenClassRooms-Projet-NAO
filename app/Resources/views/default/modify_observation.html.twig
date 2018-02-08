@@ -1,0 +1,103 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/modify_observation.css') }}" />
+
+{% endblock %}
+
+{% block title %}Modifier une observation{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style="padding-top: 100px;">
+	<div class="col-lg-11 m-auto">
+		<h1 class="main-title mt-2">MODIFIER UNE OBSERVATION</h1>
+	</div>
+
+	<div class="col-lg-8 m-auto">
+
+		{{ form_start(form) }}
+
+		{{ form_errors(form) }}
+
+		<div class="form-group">
+			{{ form_row(form.birdName) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.birdRace) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.publishedAt) }}
+		</div>
+
+		<p class="secondary-title">Coordonnées GPS</p>
+		{{ form_errors(form.latitude) }}
+		{{ form_errors(form.longitude) }}	
+
+		<div class="form-group row">
+			<div class="col-lg-2 offset-lg-1">
+				{{ form_label(form.latitude) }}
+			</div>
+			<div class="col-lg-8">
+				{{ form_widget(form.latitude) }}
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-lg-2 offset-lg-1">
+				{{ form_label(form.longitude) }}
+			</div>
+			<div class="col-lg-8">
+				{{ form_widget(form.longitude) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.content) }}
+		</div>
+
+
+		<div class="form-group">
+			<label for="dropzone-previews">Photos (facultatif, maximum 5)</label>
+			<div class="row mb-2">
+				<div class="col-lg-10 m-auto">
+					{% for picture in pictures %}
+						<figure class="figure col-lg-3 mb-0 {{ picture.name }}">
+							<img src="{{ asset('' ~ picture.name ~ '') }}" alt="{{ picture.name }}" class="figure-img img-fluid rounded mb-0">
+							<figcaption class="figure-caption text-center"><a href="#" id="{{ picture.name }}">Supprimer cette photo</a></figcaption>
+						</figure>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="dropzone-previews dropzone mb-3 col-lg-10 m-auto" id="mydropzone" action="{{ path('ajax_dropzone_modify') }}"></div>
+		</div>
+
+		<div class="form-group col-lg-4 m-auto">
+			{{ form_row(form.submit) }}
+		</div>
+
+		<p class="m-auto font-italic text-center">Les champs marqués d'un * sont obligatoires.</p>
+
+		{{ form_rest(form) }}
+
+		{{ form_end(form) }}
+
+	</div>
+</div>
+
+	
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+	<script type="text/javascript">
+		var urlRemovePicture = "{{ path('ajax_remove_picture') }}";
+	</script>
+  <script src = "{{ asset('JS/modify_observation.js') }}"></script>
+
+{% endblock %}

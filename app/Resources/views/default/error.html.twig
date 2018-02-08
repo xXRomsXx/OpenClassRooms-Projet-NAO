@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1 class="main-title mt-2">ERREUR</h1>
+		</div>
+
+		<!-- Gestion des messages flash -->
+		{% for message in app.flashes('Error') %}
+			<div class="error-message col-lg-6 offset-lg-1">
+				<i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('Success') %}
+			<div class="success-message col-lg-6 offset-lg-1">
+				<i class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div> <!--End container-fluid-->
+
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}

@@ -1,13 +1,182 @@
 <!DOCTYPE html>
+
 <html>
+
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <meta charset = "UTF-8" />
+        <meta http-equiv = "X-UA-COMPATIBLE" content = "IE = edge" />
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1" />
+        <title>{% block title %}Nos Amis Les Oiseaux{% endblock %}</title>
+        <link rel = "icon" type = "image/x-icon" href = "{{ asset('Images/favicon.ico') }}" />
+
+        {% block stylesheets %}
+
+            <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.css" type="text/css" />
+            <link rel = "stylesheet" href = "https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+            <link rel = "stylesheet" href = "{{ asset('JS/DataTables/datatables.min.css') }}" />
+            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />
+            <link rel = "stylesheet" href = "{{ asset('CSS/DropzoneJS/dropzone.css') }}" />
+
+
+        {% endblock %}
+
+        {% block API %}{% endblock %}
+
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+    <body data-spy = "scroll" data-target = "#wrap">
+
+        <div id = "page-wrap">
+
+          {% block messages %}
+
+              <div class = "text-center" id = "flash-message"></div>
+
+          {% endblock %}
+
+          <header id = "myScrollspy" class = "flex-row">
+
+              <div id = "navbar" class = "flex-row">
+
+                  <div id = "logo-wrap" class = "col-20">
+
+                      <a href = "{{ path('homepage') }}"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
+
+                  </div>
+
+                  <nav id = "menu" class = "flex-row">
+
+                      <ul class = "list-unstyled flex-row text-center">
+
+                          <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
+                          <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
+                          <a href = "{{ path('map') }}"><li>Carte interative</li></a>
+                          {% if app.user %}
+                            {% if "ROLE_PARTICULIER" in app.user.roles %}
+                              <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                            {% endif %}
+                            {% if "ROLE_NATURALISTE" in app.user.roles %}
+                              <a href = "{{ path('observation_list') }}"><li>Liste observations</li></a> <!-- si naturaliste connecté -->
+                            {% endif %}
+                            {% if "ROLE_SUPER_ADMIN" in app.user.roles %}
+                              <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                              <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                            {% endif %}
+                          {% endif %}
+                          <a href = "{{ path('list_news') }}"><li>Blog</li></a>
+                          <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
+
+                      </ul>
+
+                  </nav>
+
+                  <div id = "header-end" class = "flex-column">
+
+                      <div id = "header-social-medias" class = "flex-row">
+
+                          <a href = "https://www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
+                          <a href = "https://www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
+
+                      </div>
+
+                      <div id = "account" class = "flex-column">
+
+                        {% if app.user %}
+                          <a href = "{{ path('fos_user_profile_show') }}">Mon compte</a>
+                          <a href = "{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+                        {% else %}
+                          <a href = "{{ path('fos_user_registration_register') }}">S'inscrire</a>
+                          <a href = "{{ path('fos_user_security_login') }}">Se connecter</a>
+                        {% endif %}
+
+
+                      </div>
+
+                      <div id = "icon" class = "navbar-toggle collapsed">
+
+                          <div id = "hamburger"></div>
+
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </header>
+
+          <nav id = "menu-xs" class = "flex-row">
+
+              <ul class = "list-unstyled flex-column text-center">
+
+                <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
+                <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
+                <a href = "{{ path('map') }}"><li>Carte interative</li></a>
+                {% if app.user %}
+                  {% if "ROLE_PARTICULIER" in app.user.roles %}
+                    <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                  {% endif %}
+                  {% if "ROLE_NATURALISTE" in app.user.roles %}
+                    <a href = "{{ path('observation_list') }}"><li>Liste observations</li></a> <!-- si naturaliste connecté -->
+                  {% endif %}
+                  {% if "ROLE_SUPER_ADMIN" in app.user.roles %}
+                    <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                    <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                  {% endif %}
+                {% endif %}
+                <a href = "{{ path('list_news') }}"><li>Blog</li></a>
+                <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
+                {% if app.user %}
+                  <a href = "{{ path('fos_user_profile_show') }}"><li>Mon compte</li></a>
+                  <a href = "{{ path('fos_user_security_logout') }}"><li>Se déconnecter</li></a>
+                {% else %}
+                  <a href = "{{ path('fos_user_registration_register') }}"><li>S'inscrire</li></a>
+                  <a href = "{{ path('fos_user_security_login') }}"><li>Se connecter</li></a>
+                {% endif %}
+
+              </ul>
+
+          </nav>
+
+          {% block body %}{% endblock %}
+
+        </div>
+
+      </body>
+
+      {% block modal %}{% endblock %}
+
+      <footer class = "flex-row">
+
+          <a href = "{{ path('legal_notice') }}">Mentions légales</a>
+          <div id = "footer-social-medias">
+
+              <a href = "https://www.nao.instagram.com"><i class="fa fa-3x fa-instagram" aria-hidden="true"></i></a>
+              <a href = "https://www.nao.facebook.com"><i class="fa fa-3x fa-facebook-square" aria-hidden="true"></i></a>
+
+          </div>
+          <a href = "{{ path('tos') }}">Conditions générales d'utilisation</a>
+
+      </footer>
+
+      {% block javascripts %}
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+          <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+          <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js"></script>
+          <script src = "https://use.fontawesome.com/86150c9ee5.js"></script>
+          <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+          <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+          <script src="{{ asset('JS/DropzoneJS/dropzone.js') }}"></script>
+          <script src = "{{ asset('JS/home.js') }}"></script>
+          <script src = "{{ asset('JS/base.js') }}"></script>
+
+      {% endblock %}
+
+
+
 </html>

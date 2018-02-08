@@ -1,0 +1,97 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    {# <link rel = "stylesheet" href = "{{ asset('CSS/news_list.css') }}" /> #}
+
+{% endblock %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1 class="main-title mt-2">ACTUALITÉS</h1>
+		</div>
+
+		<!-- Gestion des messages flash -->
+		{% for message in app.flashes('Error') %}
+			<div class="error-message col-lg-6 offset-lg-1 mt-3 mb-3">
+				<i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('Success') %}
+			<div class="success-message col-lg-6 offset-lg-1 mt-3 mb-3">
+				<i class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% if app.user != null and "ROLE_ADMIN" in app.user.roles %}
+			<div class="col-lg-10 m-auto">
+				<a href="{{ path('add_news') }}" class="btn btn-info" role="button">Ajouter une actualité</a>
+				<hr>
+			</div>
+		{% endif %}
+
+		<div class="col-lg-10 m-auto">
+			{% for news in allNews %}
+				<div class="mb-3">
+					<a href="{{ path('news', { 'id': news.id }) }}"><h2 class="secondary-title mb-0">{{ news.title }}</h2></a>
+					<p class="mb-0">Publiée le {{ news.datePublished|date('d/m/Y') }}</p>
+					<div class="row">
+						{% if news.picture != null %}
+							<div class="col-lg-2">
+								<img class="d-block img-fluid mb-2" style="width: 100%;" src="{{ asset('' ~ news.picture ~ '') }}" alt="Slide">
+							</div>
+						{% endif %}
+						<p class="col-lg-10 mb-0">{{ news.content|slice(0, 300) }}...
+							<a href="{{ path('news', { 'id': news.id }) }}">Lire la suite</a>
+						</p>
+					</div>
+					{% if app.user != null and "ROLE_ADMIN" in app.user.roles %}
+						<div class="mr-2">
+							<a href="{{ path('remove_news', { 'id' : news.id }) }}" class="btn btn-danger confirmModalLien" data-toggle="modal" data-target="#modal_suppression" role="button">Supprimer</a>
+						</div>
+					{% endif %}
+				</div>
+				<hr>
+			{% endfor %}
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block modal %}
+	<!--Fenetre modal de confirmation de suppresion-->
+	<div class="modal fade" id="modal_suppression" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Attention !</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        Vous êtes sur le point de supprimer définitivement cette actualité, cette action est irréversible. Etes-vous sur ?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-info" id="confirmModalNon" data-dismiss="modal">Annuler</button>
+	        <button type="button" class="btn btn-danger" id="confirmModalOui">Valider</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+	{{ parent() }}
+  <script src = "{{ asset('JS/news_list.js') }}"></script>
+
+{% endblock %}

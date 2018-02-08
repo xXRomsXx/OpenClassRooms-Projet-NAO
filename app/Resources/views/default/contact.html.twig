@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/contact.css') }}" />
+
+{% endblock %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1 class="main-title mt-2">CONTACT</h1>
+		</div>
+
+		<div class="col-lg-10 m-auto">
+
+			<h2 class="secondary-title">Nos Amis les Oiseaux - NAO</h2>
+			<div class="col-lg-11 m-auto">
+				<p>
+					42 avenue des Zoziau<br/>
+					99 999 ROUROU<br/>
+					Tél : +33 6 84 86 95 84<br/>
+					Email : <a href="mailto:contact@nao.fr">contact@nao.fr</a><br/>
+					Représentant légal : Michel DUJARDIN
+				</p>
+			</div>
+
+			<h2 class="mt-0 secondary-title">Laissez nous un message</h2>
+			<!-- Gestion des messages flash -->
+			{% for message in app.flashes('Error') %}
+				<div class="error-message col-lg-11 m-auto">
+					<i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			{% for message in app.flashes('Success') %}
+				<div class="success-message col-lg-11 m-auto">
+					<i class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			<div class="col-lg-11 m-auto">
+				{{ form(form) }}
+				<p class="font-italic">Les champs marqués d'un * sont obligatoires.</p>
+			</div>
+
+		</div>
+
+
+
+	</div> <!--End container-fluid-->
+
+{% endblock %}

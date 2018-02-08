@@ -1,22 +1,168 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+homepage:
+    path: /
+    defaults:
+      _controller: "AppBundle:Default:index"
+
+map:
+    path: /map
+    defaults:
+      _controller: "AppBundle:Map:map"
+
+race_select:
+    path: /map/race
+    defaults:
+      _controller: "AppBundle:Map:raceSelect"
+
+add_observation:
+    path: /ajouter_observation
+    defaults:
+      _controller: "AppBundle:Observations:add"
+
+modify_observation:
+    path: /modifier_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:modify"
+
+publish_observation:
+    path: /publier_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:publish"
+
+remove_observation:
+    path: /suppression_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:remove"
+
+report_observation:
+    path: /signaler_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:report"
+
+observation:
+    path: /observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:observation"
+
+observation_list:
+    path: /liste_observation
+    defaults:
+      _controller: "AppBundle:Observations:observationList"
+
+dashboard:
+    path: /tableau_de_bord
+    defaults:
+      _controller: "AppBundle:Dashboard:dashboard"
+
+user:
+  path: /user/{id}
+  defaults:
+    _controller: "AppBundle:Users:user"
+    
+user_list:
+    path: /liste_utilisateur
+    defaults:
+      _controller: "AppBundle:Users:userList"
+
+contact:
+    path: /contact
+    defaults:
+      _controller: "AppBundle:Contact:contact"
+
+legal_notice:
+    path: /mentions_legales
+    defaults:
+      _controller: "AppBundle:Default:legalNotice"
+
+tos:
+    path: /CGU
+    defaults:
+      _controller: "AppBundle:Default:tos"
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
+    prefix: /profil
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
+    prefix: /inscription
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
+    prefix: /motdepasseperdu
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+    prefix: /profil
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+promote_user:
+    path: "/naturaliser_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:promoteUser"
+
+demote_user:
+    path: "/retrograder_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:demoteUser"
+
+remove_user:
+    path: "/supprimer_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:removeUser"
+
+error_page:
+    path: "/error"
+    defaults:
+      _controller: "AppBundle:Error:error"
+
+access_denied:
+    path: "/access_refuse"
+    defaults:
+      _controller: "AppBundle:Error:accessDenied"
+
+ajax_dropzone:
+    path: "/ajax_dropzone"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxDropzone"
+
+ajax_dropzone_modify:
+    path: "/ajax_dropzone_modify"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxDropzoneModify"
+
+ajax_remove_picture:
+    path : "/ajax_remove_picture"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxRemovePicture"
+
+list_news:
+    path : "/blog"
+    defaults:
+      _controller: "BlogBundle:Blog:newsList"
+
+news:
+    path : "/actualite/{id}"
+    defaults:
+      _controller: "BlogBundle:Blog:news"
+
+add_news:
+    path : "/ajouter_actualite"
+    defaults:
+      _controller: "BlogBundle:Blog:addNews"
+
+remove_news:
+    path : "/supprimer_actualite/{id}"
+    defaults:
+      _controller: "BlogBundle:Blog:removeNews"
+
+ajax_dropzone_news:
+    path: "/ajax_dropzone_news"
+    defaults:
+      _controller: "BlogBundle:Blog:ajaxDropzoneNews"
+

@@ -1,0 +1,87 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/add_observation.css') }}" />
+
+{% endblock %}
+
+{% block title %}Ajouter une observation{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1 class="main-title mt-2">AJOUTER UNE OBSERVATION</h1>
+		</div>
+
+	<div class="col-lg-8 m-auto">
+
+		{{ form_start(form) }}		
+
+		<div class="form-group">
+			{{ form_row(form.birdName) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.birdRace) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.publishedAt) }}
+		</div>
+
+		<p class="secondary-title">Coordonnées GPS</p>	
+		{{ form_errors(form.latitude) }}
+		{{ form_errors(form.longitude) }}
+
+		<div class="form-group row">
+			<div class="col-lg-3 offset-lg-1">
+				{{ form_label(form.latitude) }}
+			</div>
+			<div class="col-lg-7">
+				{{ form_widget(form.latitude) }}
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-lg-3 offset-lg-1">
+				{{ form_label(form.longitude) }}
+			</div>
+			<div class="col-lg-7">
+				{{ form_widget(form.longitude) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_row(form.content) }}
+		</div>
+
+		<div class="form-group">
+			<label for="dropzone-previews">Photos (facultatif, maximum 5)</label>
+			<div class="dropzone-previews dropzone mb-3 col-lg-10 m-auto" id="mydropzone" action="{{ path('ajax_dropzone') }}"></div>
+		</div>
+
+		<div class="form-group col-lg-4 m-auto">
+			{{ form_row(form.submit) }}
+		</div>
+		
+		<p class="m-auto font-italic text-center">Les champs marqués d'un * sont obligatoires.</p>
+
+		{{ form_rest(form) }}
+
+		{{ form_end(form) }}
+
+	</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+  <script src = "{{ asset('JS/add_observation.js') }}"></script>
+
+{% endblock %}

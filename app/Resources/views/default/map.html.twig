@@ -1,0 +1,249 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/map.css') }}" />
+{% endblock %}
+
+{% block title %}Carte interactive{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid" style="padding-top: 100px;">
+
+        <div class="col-lg-11 m-auto">
+            <h1 class="main-title mt-2">CARTE INTERACTIVE</h1>
+        </div>
+
+        <div class="col-lg-10 m-auto">
+
+            <div class="form-group">
+                <label for="species-input" class="m-0 secondary-title">1 - Sélectionnez l'espèce que vous recherchez</label>
+                <div class="col-lg-11 m-auto">
+                    <select id="species-input" name="species-input" class="form-control">
+                        <option disabled selected hidden value="">Sélectionnez l'espèce</option>
+                        {% for bird in birds %}
+                            <option value = "{{ bird.race }}">{{ bird.race }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="locality-input" class="mt-2 mb-0 secondary-title">2 - Renseignez une localité (facultatif)</label>
+                <div class="col-lg-11 m-auto">
+                  <div class="row">
+                    <div class="col-lg-10 mb-2">
+                        <input type="text" id="locality-input" name="locality-input" placeholder="Renseignez une localité" class="form-control"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <button id="locality-button" class="btn btn-info col-lg-12">Valider</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+
+            <label class="mt-2 mb-0 secondary-title">3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
+            <div class="col-lg-11 m-auto">
+                <div id = "map"></div>
+            </div>
+
+            <!-- Tableau des observations -->
+            <div class="col-lg-11 m-auto div-table">
+                <table id="observation-table" class="table mt-3 hover">
+                  <thead class="main-thead">
+                    <tr rol="row">
+                      <th>Nom de l'oiseau</th>
+                      <th class="text-right">Nom de l'espèce</th>
+                      <th class="text-right">Date</th>
+                      <th class="text-right">Auteur</th>
+                      <th class="text-right">Signalement</th>
+                      <th class="text-right">Consulter</th>
+                    </tr>
+                  </thead>
+                  <tbody class="main-tbody">
+                    <td valign="top" colspan="7" class="text-center">Sélectionnez une espèce pour consulter les observations</td>
+                  </tbody>
+                </table>
+            </div>
+
+        </div> <!--End col-lg-10-->
+
+    </div> <!--End container-fluid-->
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src = "{{ asset('JS/map.js') }}"></script>
+
+    <script>
+
+        var map;
+        var markers = [];
+        var gMMarkers= [];
+        var activeUser = "{{ app.user }}";
+
+        //////////// Gestion du tableau //////////////
+        function initTable() {
+            table = $('#observation-table').DataTable();
+            table.destroy();
+
+            table = $('#observation-table').DataTable({
+                "language": {
+                    "emptyTable": "Aucune observations répertoriées pour cette espèce"
+                },
+                "paging": false,
+                "searching": false,
+                "info": false,
+                "columnDefs": [
+                    {
+                        "targets": [5],
+                        "sortable": false
+                    }
+                ]
+            });
+        };
+
+        /*************API Google maps************/
+        function initMap() {
+            // Map Options
+            var latlng = new google.maps.LatLng(46.52863469527167, 2.43896484375);
+            var options = {
+              center: latlng,
+              zoom: 5,
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), options);
+
+                $('#species-input').on('change', function() {
+                    var selectedValue = $('#species-input option:selected').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ path("race_select") }}',
+                        data: { race: selectedValue },
+
+                        success: function(response) {
+
+                            $("tbody").remove();
+
+                            var observationId = response.id;
+                            var userId = response.userId;
+                            var lng = response.longitudes;
+                            var lat = response.latitudes;
+                            var birdName = response.birdName;
+                            var birdRace = response.birdRace;
+                            var reported = response.reported;
+                            var date = response.date;
+                            var author = response.author;
+                            var image = response.image;
+
+                            for(i = 0; i < gMMarkers.length; i++) {
+                                gMMarkers[i].setMap(null);
+                            }
+
+                            markers.length = 0;
+                            gMMarkers.length = 0;
+
+                            if (lng) {
+                                $("table").append('<tbody class="main-tbody"></tbody>');
+                                for(i = 0; i < lng.length; i++) {
+                                    markers.push({
+                                        coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
+                                        content: '<a href="{{ path("observation", {"id":"0"}) }}' + observationId[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
+                                        birdName: birdName[i],
+                                        birdRace: birdRace[i],
+                                        reported: reported[i],
+                                        date: date[i],
+                                        author: author[i],
+                                        userId: userId[i],
+                                        observationId: observationId[i]
+                                    });
+
+                                    addMarkers(markers[i]);
+                                }
+                            }
+
+                            initTable();
+
+                            // Add markers function
+                            function addMarkers(data) {
+
+                                if (activeUser == "") {
+                                    var marker = new google.maps.Marker({ // Marker
+                                        position: data.coords,
+                                        icon: {
+                                            path: google.maps.SymbolPath.CIRCLE,
+                                            fillColor: '#3BA9BB',
+                                            fillOpacity: 0.5,
+                                            strokeColor: '#138496',
+                                            strokeWeight: 2,
+                                            scale: 30
+                                        },
+                                        map: map
+                                    });
+                                } else {
+                                    var marker = new google.maps.Marker({ // Marker
+                                        position: data.coords,
+                                        map: map
+                                    });
+                                }
+
+                                marker.setMap(map);
+                                gMMarkers.push(marker);
+                                //Ajout du marqueur dans le tableau
+                                $("tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
+
+                                var infoWindow = new google.maps.InfoWindow({ // Infobulle
+                                    content: data.content,
+                                    maxWidth: 150,
+                                });
+
+                                // Listener for click on marker affichage infobulle
+                                marker.addListener('click', function(){
+                                    infoWindow.open(map, marker);
+                                });
+
+                            } // End addMarkers()
+                        } // End success()
+                    }); // end ajax()
+                }); // End input onchange()
+
+            // Locality Choices
+            var geocoder = new google.maps.Geocoder();
+
+            $('#locality-button').on('click', function(e) {
+
+                e.preventDefault();
+
+                var request = {
+                    address: $('#locality-input').val()
+                }
+
+                geocoder.geocode(request, function(results, status) {
+                    if(status === google.maps.GeocoderStatus.OK) {
+                        var pos = results[0].geometry.location;
+                        map.setCenter(pos);
+                        map.setZoom(7);
+                        positionMarker.setPosition(pos);
+                    } else {
+                        $('#flash-message').addClass('error-message').fadeIn(600).append('<div class = "message"><p>Veuillez entrer une localité valide</p> <br /></div>').delay(1300).fadeOut(600);
+                        $('#locality-button').prop('disabled', true);
+                        setTimeout(function() {
+                            $('.message').remove();
+                            $('#locality-button').prop('disabled', false);
+                            $('#flash-message').removeClass('error-message');
+                        }, 2600);
+                    }
+                }); // End geocode()
+            }); // End onclick()
+        } // End initMap()
+
+    </script>
+
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
+
+{% endblock %}

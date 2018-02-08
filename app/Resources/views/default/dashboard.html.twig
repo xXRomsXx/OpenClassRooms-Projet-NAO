@@ -1,0 +1,115 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/dashboard.css') }}" />
+
+{% endblock %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1 class="main-title mt-2">TABLEAU DE BORD</h1>
+		</div>
+
+		<div class="col-lg-8 m-auto">
+			<div class="row">
+
+				<!--Premier bloc de stats: particuliers-->
+				<div class="col-lg-6 mb-4">
+					<div class="card card-particulier-border">
+						<div class="card-heading card-particulier pb-0">
+							<div class="row panel-stat">
+								<div class="col-lg-6">
+									<i class="fa fa-user fa-5x"></i>
+								</div>
+								<div class="col-lg-6 text-right stat">{{ countParticuliers }}</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a href="{{ path('user_list') }}" class="lien_dashboard">
+								<div class="pull-left card-text card-text-particulier">Nombre de particuliers</div>
+								<div class="pull-right">
+									<i class="fa fa-chevron-circle-right chevron-particulier"></i>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!--Deuxième bloc de stats: naturalistes-->
+				<div class="col-lg-6 mb-4">
+					<div class="card card-naturaliste-border">
+						<div class="card-heading card-naturaliste pb-0">
+							<div class="row panel-stat">
+								<div class="col-lg-6">
+									<i class="fa fa-user-secret fa-5x"></i>
+								</div>
+								<div class="col-lg-6 text-right stat">{{ countNaturalistes }}</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a href="{{ path('user_list') }}" class="lien_dashboard">
+								<div class="pull-left card-text card-text-naturaliste">Nombre de naturalistes</div>
+								<div class="pull-right">
+									<i class="fa fa-chevron-circle-right chevron-naturaliste"></i>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!--Troisieme bloc de stats: observations publiées-->
+				<div class="col-lg-6 mb-4">
+					<div class="card card-observations-published-border">
+						<div class="card-heading card-observations-published pb-0">
+							<div class="row panel-stat">
+								<div class="col-lg-6">
+									<i class="fa fa-eye fa-5x"></i>
+								</div>
+								<div class="col-lg-6 text-right stat">{{ countObservationsPublished }}</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a href="{{ path('observation_list') }}" class="lien_dashboard">
+								<div class="pull-left card-text card-text-observations-published">Observations publiées</div>
+								<div class="pull-right">
+									<i class="fa fa-chevron-circle-right chevron-observations-published"></i>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!--Quatrième bloc de stats: observations en attente-->
+				<div class="col-lg-6 mb-4">
+					<div class="card card-observations-waiting-border">
+						<div class="card-heading card-observations-waiting pb-0">
+							<div class="row panel-stat">
+								<div class="col-lg-6">
+									<i class="fa fa-low-vision fa-5x"></i>
+								</div>
+								<div class="col-lg-6 text-right stat">{{ countObservationsWaiting }}</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a href="{{ path('observation_list') }}" class="lien_dashboard">
+								<div class="pull-left card-text card-text-observations-waiting">Observations en attente</div>
+								<div class="pull-right">
+									<i class="fa fa-chevron-circle-right chevron-observations-waiting"></i>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+			</div> <!--End row-->
+		</div> <!--End col-lg-11-->
+
+	</div> <!--End container-fluid-->
+
+{% endblock %}
+

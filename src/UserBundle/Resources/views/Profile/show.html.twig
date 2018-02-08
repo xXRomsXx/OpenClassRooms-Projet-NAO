@@ -1,0 +1,31 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Fiche utilisateur{% endblock %}
+
+{% block fos_user_content %}
+
+	<div class="col-lg-11 m-auto">
+		<h1 class="main-title mt-2">UTILISATEUR</h1>
+	</div>
+
+	{% for message in app.flashes('Success') %}
+		<div class="success-message col-lg-10 m-auto">
+			<i class="fa fa-check-circle mr-2" aria-hidden="true"></i>
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	<div class="col-lg-10 m-auto">
+  	{% include "@FOSUser/Profile/show_content.html.twig" %}
+	</div>
+
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+	{{ parent() }}
+  <script src = "{{ asset('JS/profil_user_show.js') }}"></script>
+{% endblock %}
