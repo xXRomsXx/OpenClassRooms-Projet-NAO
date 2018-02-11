@@ -1,0 +1,70 @@
+/***** Pour toutes les cards *****/
+.stat {
+	font-size: 4em;
+}
+
+.panel-stat {
+	color: white;
+}
+
+.card-heading {
+	width: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.fa-chevron-circle-right:hover, .card-text:hover { 
+	color: #134496;
+}
+
+/***** Cas par cas *****/
+.card-particulier {
+	background-color: #138496;
+}
+
+.card-particulier-border {
+	border-color: #138496;
+}
+
+.chevron-particulier, .card-text-particulier {
+	color: #138496;
+}
+
+.card-naturaliste {
+	background-color: #FFA234;
+}
+
+.card-naturaliste-border {
+	border-color: #FFA234;
+}
+
+.chevron-naturaliste, .card-text-naturaliste {
+	color: #FFA234;
+}
+
+.card-observations-published {
+	background-color: #3BBA6C;
+}
+
+.card-observations-published-border {
+	border-color: #3BBA6C;
+}
+
+.chevron-observations-published, .card-text-observations-published {
+	color: #3BBA6C;
+}
+
+.card-observations-waiting {
+	background-color: #E06666;
+}
+
+.card-observations-waiting-border {
+	border-color: #E06666;
+}
+
+.chevron-observations-waiting, .card-text-observations-waiting {
+	color: #E06666;
+}
+

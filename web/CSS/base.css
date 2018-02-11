@@ -1,0 +1,569 @@
+/*          Police          */
+
+@font-face {
+
+    font-family: 'Agenda-Bold';
+    src: url('../Font/Agenda/AgendaBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Agenda-Medium';
+    src: url('../Font/Agenda/AgendaMedium.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Agenda-Light';
+    src: url('../Font/Agenda/AgendaLight.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*          Eléments de base          */
+
+html {
+    height: 100%;
+}
+
+body {
+
+    position: relative;
+    min-height: 100%;
+    width: 100%;
+    background: #EEEEEE;
+    font-family: 'Agenda-Light', 'Palatino Linotype', Arial, sans-serif;
+    overflow-x: hidden;
+    padding-bottom: 5em;
+
+}
+
+#page-wrap {
+
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
+    z-index: 2;
+
+}
+
+#flash-message {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100px;
+    bottom: 0;
+    position: fixed;
+    font-size: 1.4em;
+    color: #efefef;
+    opacity: 0.8;
+    z-index: 5;
+
+}
+
+.message {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.error-message {
+
+    background-color: #AA3333;
+    border-top: 2px solid #880000;
+    border-bottom: 2px solid #880000;
+
+}
+
+.succes-message {
+
+    background-color: #5cb85c;
+    border-top: 2px solid #4cae4c;
+    border-bottom: 2px solid #4cae4c;
+
+}
+
+footer {
+
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
+    background-color: white;
+    color: #3BA9BB;
+    padding: 5px 20px 5px;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0px;
+    z-index: 0;
+
+}
+
+footer a {
+
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+    color: #3BA9BB;
+
+}
+
+footer a:hover {
+
+    opacity: 1;
+    text-decoration: none;
+
+}
+
+footer .fa {
+
+    margin: 0 10px;
+    color: #3BA9BB;
+
+}
+
+.col-20 {
+
+    width: 20%;
+    height: 100%;
+
+}
+
+.flex-row {
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+.flex-column {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+#page-wrap {
+
+    position: relative;
+    z-index: 2;
+
+}
+
+header {
+
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #EEEEEE;
+    font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
+    opacity: 0.7;
+    z-index: 5;
+    transition: all 0.3s ease-in-out;
+
+}
+
+header:hover {
+
+    opacity: 1;
+
+}
+
+#navbar {
+
+    background-color: white;
+    width: 100%;
+    height: 100px;
+
+}
+
+#logo {
+
+    height: 100%;
+
+}
+
+#icon {
+
+    display: none;
+
+}
+
+#menu, #menu ul {
+
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#menu li {
+
+    margin: 0 20px;
+    color: #3BA9BB;
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+
+}
+
+#menu li:hover {
+
+    opacity: 1;
+
+}
+
+#menu a:hover {
+
+    text-decoration: none;
+
+}
+
+#header-end {
+
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+    height: 100%;
+
+}
+
+#header-social-medias {
+
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+
+}
+
+#account {
+
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+
+}
+
+#header-social-medias a {
+
+    color: #3BA9BB;
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+
+}
+
+#header-social-medias a:hover {
+
+    opacity: 1;
+
+}
+
+#header-social-medias .fa {
+
+    margin: 0 5px;
+
+}
+
+#account a {
+
+    color: #3BA9BB;
+    opacity: 0.7;
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+}
+
+#account a:hover {
+
+    opacity: 1;
+
+}
+
+#menu-xs {
+
+    display: none;
+    font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
+
+}
+
+.main-title, .secondary-title, label, .third-title {
+    color: #138496;
+}
+
+.secondary-title {
+    font-size: 1.2em;
+}
+
+/************ TABLEAU ************/
+.main-thead {
+    background-color: #138496;
+    color: white;
+}
+
+.main-tbody, .main-tbody a, .main-tbody a:hover, a, a:hover {
+    color: #138496;
+}
+
+.main-tbody tr:hover {
+    background-color: #FFB966 !important;
+}
+
+/******** MESSAGE FLASH ***********/
+.error-message {
+    color: white;
+    background-color: #CC0000;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 35px;
+    padding-top: 5px;
+}
+
+.success-message {
+    color: white;
+    background-color: #3BBA6C;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 35px;
+    padding-top: 5px;
+}
+
+/************** BOUTONS *************/
+.btn-info {
+    background-color: #3BA9BB !important;
+}
+
+.btn-success {
+    background-color: #3BBA6C !important;
+}
+
+.btn-warning {
+    background-color: #FFA234 !important;
+}
+
+.btn-danger {
+    background-color: #CC0000 !important;
+}
+
+/*****Bouton de modification photo de profil******/
+.label-user-picture {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/*                  Médias Queries                  */
+
+@media screen and (max-width: 992px) {
+
+    #header-end {
+
+        justify-content: center;
+        width: 50%;
+
+    }
+
+    #icon {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        height: 40%;
+        cursor: pointer;
+        border: none;
+        opacity: 0.7;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #3BA9BB;
+        border-radius: 5%;
+        padding-top: 3px;
+
+    }
+
+    #icon:hover {
+
+        background: transparent;
+        opacity: 1;
+
+    }
+
+    #hamburger {
+
+        width: 70%;
+        height: 100%;
+        height: 4px;
+        background: #3BA9BB;
+        transform: translate(0%, -50%);
+        box-shadow: 1px 1px 5px #3BA9BB;
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    #hamburger:before, #hamburger:after {
+
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: #3BA9BB;
+        box-shadow: 1px 1px 5px #3BA9BB;
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    #hamburger:before {
+
+        top: -10px;
+
+    }
+
+    #hamburger:after {
+
+        top: 10px;
+
+    }
+
+    #icon.isActive #hamburger {
+
+        background: transparent;
+        box-shadow: none;
+
+    }
+
+    #icon.isActive #hamburger:before {
+
+        top: 0;
+        transform: rotate(45deg);
+
+    }
+
+    #icon.isActive #hamburger:after {
+
+        top:0;
+        transform: rotate(135deg);
+
+    }
+
+    #menu ul {
+
+        display: none;
+
+    }
+
+    #account {
+
+        display: none;
+
+    }
+
+    #menu-xs {
+
+        width: 100%;
+        border-top: 1px solid #3BA9BB;
+        background: #EEEEEE;
+        position: fixed;
+        top: 100px;
+        z-index: 5;
+
+    }
+
+    #menu-xs ul {
+
+        display: block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    #menu-xs a {
+
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+
+    }
+
+    #menu-xs li {
+
+        padding: 10px 0;
+        color: #3BA9BB;
+        opacity: 0.7;
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    #menu-xs li:hover {
+
+        background: #3BA9BB;
+        color: #EEEEEE;
+        opacity: 1;
+
+    }
+
+    #header-social-medias {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    #icon {
+
+        width: 70%;
+        height: 60%;
+
+    }
+
+    footer {
+
+        font-size: 0.7em;
+
+    }
+
+    footer a {
+
+        width: 25%;
+        text-align: center;
+
+    }
+
+    #footer-social-medias {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 35%;
+
+    }
+
+    #footer-social-medias a {
+
+        width: 50%;
+
+    }
+
+    footer .fa {
+
+        font-size: 30px;
+
+    }
+
+}

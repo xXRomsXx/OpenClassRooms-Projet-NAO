@@ -1,0 +1,34 @@
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance: none;
+    cursor: pointer;
+}
+
+#species-input {
+  background: url('../Images/select-arrow.png') no-repeat #FFFFFF;
+  background-position: right;
+  background-size: contain;
+  color: #3BA9BB;
+}
+
+#locality-input {
+    background: url('../Images/loupe.png') no-repeat #FFFFFF;
+    background-position: right;
+    background-size: contain;
+    color: #3BA9BB;
+}
+
+
+#map-wrap {
+    height: 500px;
+    width: 80%;
+    padding: 0 20px;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+}
